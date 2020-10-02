@@ -7,6 +7,8 @@ import (
 )
 
 func (st *State) handleRepos(c *gin.Context) {
+	c.Header("Access-Control-Allow-Origin", "*")
+	c.Header("Access-Control-Allow-Headers", "access-control-allow-origin, access-control-allow-headers")
 	var repos []Repository
 	url := fmt.Sprintf("https://api.github.com/users/%s/repos", c.Param("user"))
 	st.getJSON(url, &repos)
@@ -14,6 +16,8 @@ func (st *State) handleRepos(c *gin.Context) {
 }
 
 func (st *State) handleCommits(c *gin.Context) {
+	c.Header("Access-Control-Allow-Origin", "*")
+	c.Header("Access-Control-Allow-Headers", "access-control-allow-origin, access-control-allow-headers")
 	repo := c.Param("repo")
 	user := c.Param("user")
 	st.saveSelection(user, repo)
@@ -25,6 +29,8 @@ func (st *State) handleCommits(c *gin.Context) {
 }
 
 func (st *State) handleRecent(c *gin.Context) {
+	c.Header("Access-Control-Allow-Origin", "*")
+	c.Header("Access-Control-Allow-Headers", "access-control-allow-origin, access-control-allow-headers")
 	var recentRepos []RecentRepo
 	st.Orm.Limit(20).Order("id desc").Find(&recentRepos)
 	c.JSON(200, &recentRepos)
