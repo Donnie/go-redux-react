@@ -1,0 +1,25 @@
+version: '3.5'
+services: 
+    meister:
+        build:
+            context: .
+        command: goreload .
+        links:
+            - postgres
+        ports:
+            - '${PORT}:${PORT}'
+        volumes:
+            - ./:/build
+    postgres:
+        container_name: meister_db
+        hostname: postgres
+        environment: 
+            - POSTGRES_USER=meister
+            - POSTGRES_DB=meister
+            - POSTGRES_PASSWORD=postgres
+        image: 'postgres:alpine'
+        ports: 
+            - '5432:5432'
+        restart: always
+        # volumes:
+        #     - "./db:/var/lib/postgresql/data"
