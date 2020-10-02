@@ -38,5 +38,8 @@ func main() {
 	r.GET("/health", func(c *gin.Context) {
 		c.JSON(200, nil)
 	})
+	r.GET("/fetch-repos/:user", func(c *gin.Context) {
+		c.JSON(200, fetchRepos(c.Param("user")))
+	})
 	r.Run()
 }
