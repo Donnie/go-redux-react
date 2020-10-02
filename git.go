@@ -12,6 +12,7 @@ import (
 
 var httpcl = &http.Client{Timeout: 10 * time.Second}
 var cacheDuration = time.Minute
+var fallbackDuration = time.Hour
 
 func fetch(url string) (str string, err error) {
 	r, err := httpcl.Get(url)
@@ -32,9 +33,12 @@ func (st *State) getJSON(url string, target interface{}) {
 	jsonStr, err := st.Cache.Get(ctx, url).Result()
 	if err != nil {
 		jsonStr, err = fetch(url)
-		check(err)
-		err = st.Cache.Set(ctx, url, jsonStr, cacheDuration).Err()
-		check(err)
+		if err != nil {
+			jsonStr, _ = st.Cache.Get(ctx, "fallback:"+url).Result()
+		} else {
+			st.Cache.Set(ctx, "fallback:"+url, jsonStr, fallbackDuration)
+			st.Cache.Set(ctx, url, jsonStr, cacheDuration)
+		}
 	}
 	json.Unmarshal([]byte(jsonStr), target)
 }
