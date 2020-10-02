@@ -16,7 +16,8 @@ export default function App() {
         console.log(err)
       }
     }
-    doit()
+    const timeOutId = setTimeout(() => doit(), 500);
+    return () => clearTimeout(timeOutId);
   }, [searchTerm])
 
   return (
