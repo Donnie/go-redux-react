@@ -24,3 +24,9 @@ func fetchRepos(user string) (repos []Repository) {
 	getJSON(url, &repos)
 	return
 }
+
+func fetchCommits(user, repo string) (commits []Commit) {
+	url := fmt.Sprintf("https://api.github.com/repos/%s/%s/commits", user, repo)
+	getJSON(url, &commits)
+	return
+}

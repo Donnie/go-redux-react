@@ -112,3 +112,55 @@ type Repository struct {
 	Watchers         *int      `json:"watchers"`
 	WatchersCount    *int      `json:"watchers_count"`
 }
+
+// CommitAuthor from Github
+type CommitAuthor struct {
+	Date  *time.Time `json:"date"`
+	Email *string    `json:"email"`
+	Name  *string    `json:"name"`
+}
+
+// CommitTree from Github
+type CommitTree struct {
+	Sha *string `json:"sha"`
+	URL *string `json:"url"`
+}
+
+// Verification from Github
+type Verification struct {
+	Payload   *string `json:"payload"`
+	Reason    *string `json:"reason"`
+	Signature *string `json:"signature"`
+	Verified  *bool   `json:"verified"`
+}
+
+// CommitData from Github
+type CommitData struct {
+	Author       *CommitAuthor `json:"author"`
+	CommentCount *int          `json:"comment_count"`
+	Committer    *CommitAuthor `json:"committer"`
+	Message      *string       `json:"message"`
+	Tree         *CommitTree   `json:"tree"`
+	URL          *string       `json:"url"`
+	Verification *Verification `json:"verification"`
+}
+
+// CommitParent from Github
+type CommitParent struct {
+	HTMLURL *string `json:"html_url"`
+	Sha     *string `json:"sha"`
+	URL     *string `json:"url"`
+}
+
+// Commit from Github
+type Commit struct {
+	Author      *Owner          `json:"author"`
+	CommentsURL *string         `json:"comments_url"`
+	Commit      *CommitData     `json:"commit"`
+	Committer   *Owner          `json:"committer"`
+	HTMLURL     *string         `json:"html_url"`
+	NodeID      *string         `json:"node_id"`
+	Parents     *[]CommitParent `json:"parents"`
+	Sha         *string         `json:"sha"`
+	URL         *string         `json:"url"`
+}

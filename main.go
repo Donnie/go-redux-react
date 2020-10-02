@@ -41,5 +41,8 @@ func main() {
 	r.GET("/fetch-repos/:user", func(c *gin.Context) {
 		c.JSON(200, fetchRepos(c.Param("user")))
 	})
+	r.GET("/fetch-commits/:user/:repo", func(c *gin.Context) {
+		c.JSON(200, fetchCommits(c.Param("user"), c.Param("repo")))
+	})
 	r.Run()
 }
