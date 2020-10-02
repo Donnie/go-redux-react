@@ -26,7 +26,8 @@ func main() {
 	r.GET("/health", func(c *gin.Context) {
 		c.JSON(200, nil)
 	})
-	r.GET("/fetch-repos/:user", st.fetchRepos)
-	r.GET("/fetch-commits/:user/:repo", st.fetchCommits)
+	r.GET("/fetch-repos/:user", st.handleRepos)
+	r.GET("/fetch-commits/:user/:repo", st.handleCommits)
+	r.GET("/fetch-recent", st.handleRecent)
 	r.Run()
 }

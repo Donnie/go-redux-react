@@ -37,7 +37,7 @@ func initPostgres() *gorm.DB {
 	sqlDB, err := db.DB()
 	sqlDB.SetConnMaxLifetime(time.Hour)
 	sqlDB.SetMaxOpenConns(10)
-	db.AutoMigrate(&Record{})
+	db.AutoMigrate(&RecentRepo{})
 
 	return db
 }

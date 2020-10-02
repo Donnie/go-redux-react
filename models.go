@@ -13,11 +13,12 @@ type State struct {
 	Cache *redis.Client
 }
 
-// Record for internal record keeping
-type Record struct {
-	gorm.Model
+// RecentRepo for storing list of recently selected repos
+type RecentRepo struct {
+	ID uint `json:"id"`
 
-	Name *string `json:"name,omitempty"`
+	RepoUser *string `json:"repo_user" gorm:"index:idx_user_repo,unique"`
+	RepoName *string `json:"repo_name" gorm:"index:idx_user_repo,unique"`
 }
 
 // Owner is github owner
