@@ -1,48 +1,32 @@
 package main
 
 import (
-	"fmt"
-	"os"
-	"time"
+	"context"
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
-	"gorm.io/driver/postgres"
-	"gorm.io/gorm"
 )
+
+var ctx = context.Background()
 
 func init() {
 	godotenv.Load(".env")
 }
 
 func main() {
-	dsn := fmt.Sprintf(
-		"user=%s password=%s dbname=%s port=%s host=%s",
-		os.Getenv("PG_USER"),
-		os.Getenv("PG_PASS"),
-		os.Getenv("PG_DBAS"),
-		os.Getenv("PG_PORT"),
-		os.Getenv("PG_HOST"),
-	)
-	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
-	if err != nil {
-		fmt.Println("Failed to connect to database")
-		os.Exit(1)
+	db := initPostgres()
+	rdb := initRDB()
+
+	st := State{
+		Orm:   db,
+		Cache: rdb,
 	}
-	sqlDB, err := db.DB()
-	sqlDB.SetConnMaxLifetime(time.Hour)
-	sqlDB.SetMaxOpenConns(10)
-	db.AutoMigrate(&Record{})
 
 	r := gin.Default()
 	r.GET("/health", func(c *gin.Context) {
 		c.JSON(200, nil)
 	})
-	r.GET("/fetch-repos/:user", func(c *gin.Context) {
-		c.JSON(200, fetchRepos(c.Param("user")))
-	})
-	r.GET("/fetch-commits/:user/:repo", func(c *gin.Context) {
-		c.JSON(200, fetchCommits(c.Param("user"), c.Param("repo")))
-	})
+	r.GET("/fetch-repos/:user", st.fetchRepos)
+	r.GET("/fetch-commits/:user/:repo", st.fetchCommits)
 	r.Run()
 }

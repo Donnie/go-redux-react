@@ -1,11 +1,14 @@
 version: '3.5'
 services: 
+    redis:
+        image: redis:6
     meister:
         build:
             context: .
         command: goreload .
         links:
             - postgres
+            - redis
         ports:
             - '${PORT}:${PORT}'
         volumes:

@@ -3,8 +3,15 @@ package main
 import (
 	"time"
 
+	"github.com/go-redis/redis/v8"
 	"gorm.io/gorm"
 )
+
+// State holds app state
+type State struct {
+	Orm   *gorm.DB
+	Cache *redis.Client
+}
 
 // Record for internal record keeping
 type Record struct {
