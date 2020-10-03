@@ -11,3 +11,8 @@ export interface Commit {
     message: string,
     url: string,
 }
+
+export interface CommitSearch {
+    searchTerm: string,
+    commits: Commit[],
+}

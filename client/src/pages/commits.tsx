@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { RouteComponentProps } from 'react-router'
 import { Commit } from '../types'
 import SearchArea from '../parts/search-area'
+import CommitList from '../parts/commit-list'
 import { HEADER } from '../parts/styled'
 import { fetchCommits } from '../services'
 
@@ -18,7 +19,6 @@ function Commits(props: RouteComponentProps<RouteParams>) {
 
   const [searchTerm, setSearchTerm] = useState("")
   const [commitList, setCommitList] = useState([] as Commit[])
-  const [viewCommitList, setViewCommitList] = useState([] as Commit[])
 
   useEffect(() => {
     async function doit() {
@@ -32,24 +32,11 @@ function Commits(props: RouteComponentProps<RouteParams>) {
     doit()
   }, [user, repo])
 
-  useEffect(() => {
-    const view = commitList.filter(comm => comm.message.toLowerCase().includes(searchTerm.toLowerCase()))
-    setViewCommitList([...view])
-  }, [searchTerm, commitList])
-
   return (
     <div className="commits-page">
       <HEADER>Commits Explorer</HEADER>
       <SearchArea placeholder="Search commit message..." searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-      <div>
-        {
-          viewCommitList.map(commit => (
-            <div key={commit.date}>
-              {commit.message}
-            </div>
-          ))
-        }
-      </div>
+      <CommitList commits={commitList} searchTerm={searchTerm} />
     </div>
   )
 }

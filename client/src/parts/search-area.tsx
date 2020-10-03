@@ -23,7 +23,7 @@ type Props = {
   setSearchTerm: React.Dispatch<React.SetStateAction<string>>,
 }
 
-export default function SearchArea({ placeholder, searchTerm, setSearchTerm }: Props) {
+function SearchArea({ placeholder, searchTerm, setSearchTerm }: Props) {
   return (
     <SEARCHBOX>
       <SEARCH
@@ -35,3 +35,5 @@ export default function SearchArea({ placeholder, searchTerm, setSearchTerm }: P
     </SEARCHBOX>
   )
 }
+
+export default SearchArea
