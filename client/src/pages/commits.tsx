@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { RouteComponentProps } from 'react-router'
 import { Commit } from '../types'
 import SearchArea from '../parts/search-area'
+import { HEADER } from '../parts/styled'
 import { fetchCommits } from '../services'
 
 type RouteParams = {
@@ -38,7 +39,7 @@ function Commits(props: RouteComponentProps<RouteParams>) {
 
   return (
     <div className="commits-page">
-      <header className="header">Commits Explorer</header>
+      <HEADER>Commits Explorer</HEADER>
       <SearchArea placeholder="Search commit message..." searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
       <div>
         {

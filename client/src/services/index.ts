@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "axios"
 import { Repository, Commit } from '../types'
 
 const meister = axios.create({

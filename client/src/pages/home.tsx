@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { HEADER } from '../parts/styled'
 import RepoList from '../parts/repo-list'
 import SearchArea from '../parts/search-area'
 import { Repository } from '../types'
@@ -24,7 +25,7 @@ export default function Home() {
 
   return (
     <div className="home">
-      <header className="header">Repository Explorer</header>
+      <HEADER>Repository Explorer</HEADER>
       <SearchArea placeholder="Search repo name..." searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
       <RepoList repos={repoList} />
     </div>

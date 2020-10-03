@@ -1,6 +1,13 @@
-import React from 'react';
+import React from 'react'
+import styled from 'styled-components'
 import RepoItem from './repo-item'
 import { Repository } from '../types'
+
+const RESULTS = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  width: 80vw;
+`
 
 type Props = {
   repos: Repository[]
@@ -8,10 +15,10 @@ type Props = {
 
 export default function RepoList({ repos }: Props) {
   return (
-    <div className="results-area">
+    <RESULTS>
       {
-        repos.map(repo => <RepoItem repo={repo} />)
+        repos.map(repo => <RepoItem repo={repo} key={repo.full_name} />)
       }
-    </div>
+    </RESULTS>
   )
 }
