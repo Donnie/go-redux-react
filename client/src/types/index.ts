@@ -16,3 +16,8 @@ export interface CommitSearch {
     searchTerm: string,
     commits: Commit[],
 }
+
+export interface Recent {
+    repo_user: string,
+    repo_name: string,
+}

@@ -1,14 +1,23 @@
 import React, { useEffect, useState } from 'react'
 import { HEADER } from '../parts/styled'
+import RecentList from '../parts/recent-list'
 import RepoList from '../parts/repo-list'
 import SearchArea from '../parts/search-area'
-import { Repository } from '../types'
-import { fetchRepos } from '../services'
+import { Recent, Repository } from '../types'
+import { fetchRecent, fetchRepos } from '../services'
 import '../App.css'
 
 export default function Home() {
   const [searchTerm, setSearchTerm] = useState("facebook")
   const [repoList, setRepolist] = useState([] as Repository[])
+  const [recentList, setRecentlist] = useState([] as Recent[])
+
+  useEffect(() => {
+    async function doit() {
+      await fetchRecent().then(res => setRecentlist([...res]))
+    }
+    doit()
+  }, [])
 
   useEffect(() => {
     async function doit() {
@@ -27,6 +36,7 @@ export default function Home() {
     <div className="home">
       <HEADER>Repository Explorer</HEADER>
       <SearchArea placeholder="Search repo name..." searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+      <RecentList recents={recentList} />
       <RepoList repos={repoList} />
     </div>
   )

@@ -1,5 +1,5 @@
 import axios from "axios"
-import { Repository, Commit } from '../types'
+import { Repository, Commit, Recent } from '../types'
 
 const meister = axios.create({
   baseURL: "http://localhost:5000"
@@ -18,4 +18,9 @@ export const fetchCommits = async (user: string, repo: string): Promise<Commit[]
     message: datum.commit.message,
     url: datum.commit.url,
   }))
+}
+
+export const fetchRecent = async (): Promise<Recent[]> => {
+  const response = await meister.get(`/fetch-recent`)
+  return response.data
 }
