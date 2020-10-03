@@ -9,7 +9,7 @@ type RouteParams = {
   repo: string,
 }
 
-export default function Commits(props: RouteComponentProps<RouteParams>) {
+function Commits(props: RouteComponentProps<RouteParams>) {
   const {
     user,
     repo,
@@ -17,6 +17,7 @@ export default function Commits(props: RouteComponentProps<RouteParams>) {
 
   const [searchTerm, setSearchTerm] = useState("")
   const [commitList, setCommitList] = useState([] as Commit[])
+  const [viewCommitList, setViewCommitList] = useState([] as Commit[])
 
   useEffect(() => {
     async function doit() {
@@ -30,15 +31,19 @@ export default function Commits(props: RouteComponentProps<RouteParams>) {
     doit()
   }, [user, repo])
 
+  useEffect(() => {
+    const view = commitList.filter(comm => comm.message.toLowerCase().includes(searchTerm.toLowerCase()))
+    setViewCommitList([...view])
+  }, [searchTerm, commitList])
+
   return (
     <div className="commits-page">
       <header className="header">Commits Explorer</header>
       <SearchArea placeholder="Search commit message..." searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-      {user} {repo}
       <div>
         {
-          commitList.map(commit => (
-            <div>
+          viewCommitList.map(commit => (
+            <div key={commit.date}>
               {commit.message}
             </div>
           ))
@@ -47,3 +52,5 @@ export default function Commits(props: RouteComponentProps<RouteParams>) {
     </div>
   )
 }
+
+export default Commits
