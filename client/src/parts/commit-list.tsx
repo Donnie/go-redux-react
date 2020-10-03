@@ -1,19 +1,20 @@
 import React, { useEffect, useState } from 'react'
-import { Commit } from '../types'
+import { useSelector } from 'react-redux'
+import { Commit, CommitSearch } from '../types'
 
 type Props = {
   commits: Commit[],
-  searchTerm: string,
 }
 
-function CommitList({ commits, searchTerm }: Props) {
+function CommitList({ commits }: Props) {
   const [viewCommitList, setViewCommitList] = useState([] as Commit[])
+  const query = useSelector((state: CommitSearch) => state.searchTerm)
 
   useEffect(() => {
     const view = commits.filter(comm => comm.message.toLowerCase()
-      .includes(searchTerm.toLowerCase()))
+      .includes(query.toLowerCase()))
     setViewCommitList([...view])
-  }, [searchTerm, commits])
+  }, [query, commits])
 
   return (
     <div>

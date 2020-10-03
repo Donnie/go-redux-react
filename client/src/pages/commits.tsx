@@ -5,6 +5,8 @@ import SearchArea from '../parts/search-area'
 import CommitList from '../parts/commit-list'
 import { HEADER } from '../parts/styled'
 import { fetchCommits } from '../services'
+import { searchParam } from '../store/actions/search'
+import { useDispatch } from 'react-redux'
 
 type RouteParams = {
   user: string,
@@ -19,6 +21,7 @@ function Commits(props: RouteComponentProps<RouteParams>) {
 
   const [searchTerm, setSearchTerm] = useState("")
   const [commitList, setCommitList] = useState([] as Commit[])
+  const dispatch = useDispatch()
 
   useEffect(() => {
     async function doit() {
@@ -32,11 +35,15 @@ function Commits(props: RouteComponentProps<RouteParams>) {
     doit()
   }, [user, repo])
 
+  useEffect(() => {
+    dispatch(searchParam(searchTerm))
+  }, [searchTerm])
+
   return (
     <div className="commits-page">
       <HEADER>Commits Explorer</HEADER>
       <SearchArea placeholder="Search commit message..." searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-      <CommitList commits={commitList} searchTerm={searchTerm} />
+      <CommitList commits={commitList} />
     </div>
   )
 }
