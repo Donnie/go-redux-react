@@ -1,8 +1,5 @@
-.app {
-  display: flex;
-  flex-direction: column;
+body {
   padding: 10px 30px;
-  height: 100%;
   background-color: #282c34;
   color: white;
 }

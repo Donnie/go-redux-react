@@ -25,7 +25,7 @@ export default function Home() {
   return (
     <div className="home">
       <header className="header">Repository Explorer</header>
-      <SearchArea searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+      <SearchArea placeholder="Search repo name..." searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
       <RepoList repos={repoList} />
     </div>
   )

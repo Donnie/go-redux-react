@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Repository } from '../types'
+import { Repository, Commit } from '../types'
 
 const meister = axios.create({
   baseURL: "http://localhost:5000"
@@ -8,4 +8,14 @@ const meister = axios.create({
 export const fetchRepos = async (searchTerm: string): Promise<Repository[]> => {
   const response = await meister.get(`/fetch-repos/${searchTerm}`)
   return response.data
+}
+
+export const fetchCommits = async (user: string, repo: string): Promise<Commit[]> => {
+  const response = await meister.get(`/fetch-commits/${user}/${repo}`)
+  return response.data.map((datum: any) => ({
+    author_name: datum.commit.author.name,
+    date: datum.commit.author.date,
+    message: datum.commit.message,
+    url: datum.commit.url,
+  }))
 }

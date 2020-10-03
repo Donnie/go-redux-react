@@ -4,3 +4,10 @@ export interface Repository {
     name: string,
     stargazers_count: number,
 }
+
+export interface Commit {
+    author_name: string,
+    date: string,
+    message: string,
+    url: string,
+}
