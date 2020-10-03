@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
+	"strings"
 	"time"
 
 	"gorm.io/gorm/clause"
@@ -14,6 +15,7 @@ var cacheDuration = time.Minute
 var fallbackDuration = time.Hour
 
 func (st *State) getJSON(url string, target interface{}) {
+	url = strings.ToLower(url)
 	jsonStr, err := st.Cache.Get(ctx, url).Result()
 	if err != nil {
 		jsonStr, err = fetch(url)

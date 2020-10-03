@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 )
@@ -23,6 +24,11 @@ func main() {
 	}
 
 	r := gin.Default()
+	r.Use(cors.New(cors.Config{
+		AllowOrigins: []string{"*"},
+		AllowMethods: []string{"GET"},
+		AllowHeaders: []string{"Origin"},
+	}))
 	r.GET("/health", func(c *gin.Context) {
 		c.JSON(200, nil)
 	})

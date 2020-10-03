@@ -20,7 +20,7 @@ type Props = {
 }
 
 export default function RecentList({ recents }: Props) {
-  return (
+  return recents.length ? (
     <div>
       <h3>Recent repositories: </h3>
       <RECENTLIST>
@@ -33,5 +33,5 @@ export default function RecentList({ recents }: Props) {
         }
       </RECENTLIST>
     </div>
-  )
+  ) : <></>
 }

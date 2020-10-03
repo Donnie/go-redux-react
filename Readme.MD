@@ -12,3 +12,7 @@ make build
 make dev
 ```
 
+Now visit: http://locahost:3000
+
+### Clean up
+You can do `make clean` to clean up the docker containers.
