@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import React from 'react'
+import { connect } from "react-redux";
+import { createSelector } from 'reselect';
 import { Commit, CommitSearch } from '../types'
 
 type Props = {
@@ -7,19 +8,10 @@ type Props = {
 }
 
 function CommitList({ commits }: Props) {
-  const [viewCommitList, setViewCommitList] = useState([] as Commit[])
-  const query = useSelector((state: CommitSearch) => state.searchTerm)
-
-  useEffect(() => {
-    const view = commits.filter(comm => comm.message.toLowerCase()
-      .includes(query.toLowerCase()))
-    setViewCommitList([...view])
-  }, [query, commits])
-
   return (
     <div>
       {
-        viewCommitList.map(commit => (
+        commits.map(commit => (
           <div key={commit.date}>
             {commit.message}
           </div>
@@ -29,4 +21,21 @@ function CommitList({ commits }: Props) {
   )
 }
 
-export default CommitList
+const getSearchTerm = (state: CommitSearch) => state.searchTerm
+const getCommits = (state: CommitSearch) => state.commits
+
+const getVisibleCommits = createSelector(
+  [getSearchTerm, getCommits],
+  (searchTerm: string, commits: Commit[]) => { 
+    return commits.filter(comm => comm.message.toLowerCase()
+      .includes(searchTerm.toLowerCase()))
+      .slice(0,20)
+  }
+)
+
+const mapStateToProps = (state: CommitSearch) => ({
+  commits: getVisibleCommits(state),
+  query: state.searchTerm,
+})
+
+export default connect(mapStateToProps, null)(CommitList)

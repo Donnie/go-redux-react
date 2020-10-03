@@ -11,7 +11,8 @@ const searchReducer = (state = initialState, action: any) => {
     case Actions.SEARCH:
       return {
         ...state,
-        searchTerm: action.payload
+        searchTerm: action.payload,
+        commits: action.commits,
       }
     default:
       return state

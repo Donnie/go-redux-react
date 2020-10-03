@@ -36,8 +36,8 @@ function Commits(props: RouteComponentProps<RouteParams>) {
   }, [user, repo])
 
   useEffect(() => {
-    dispatch(searchParam(searchTerm))
-  }, [searchTerm])
+    dispatch(searchParam(searchTerm, commitList))
+  }, [dispatch, searchTerm, commitList])
 
   return (
     <div className="commits-page">
